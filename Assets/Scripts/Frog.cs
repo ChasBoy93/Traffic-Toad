@@ -5,8 +5,8 @@ public class Frog : MonoBehaviour
     public Rigidbody2D rb;
 
     [Header("Tilt Settings")]
-    public float tiltThreshold = 0.3f;  // How far the player must tilt to trigger a move
-    public float moveCooldown = 0.25f;  // Prevents continuous movement while holding tilt
+    public float tiltThreshold = 0.3f; 
+    public float moveCooldown = 0.25f;  
 
     private float lastMoveTime = 0f;
 
@@ -17,7 +17,6 @@ public class Frog : MonoBehaviour
         if (Time.time - lastMoveTime < moveCooldown)
             return;
 
-        // Horizontal Movement
         if (tilt.x > tiltThreshold)
         {
             Move(Vector2.right);
@@ -26,7 +25,6 @@ public class Frog : MonoBehaviour
         {
             Move(Vector2.left);
         }
-        // Vertical Movement
         else if (tilt.y > tiltThreshold)
         {
             Move(Vector2.up);

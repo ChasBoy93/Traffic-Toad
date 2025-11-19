@@ -1,20 +1,17 @@
-using UnityEditor.Rendering;
+using System.Collections;
 using UnityEngine;
 
-public class CarSpwaner : MonoBehaviour
+public class CarSpawner : MonoBehaviour
 {
-    public float spawnDelay = .3f;
-
+    public float spawnDelay = 0.3f;
     public GameObject car;
-
     public Transform[] spawnPoints;
 
     float nextTimeToSpawn = 0f;
 
     void Update()
     {
-
-        if(nextTimeToSpawn <= Time.time)
+        if (nextTimeToSpawn <= Time.time)
         {
             SpawnCar();
             nextTimeToSpawn = Time.time + spawnDelay;
@@ -23,9 +20,17 @@ public class CarSpwaner : MonoBehaviour
 
     void SpawnCar()
     {
-        int randomIndex = Random.Range(0,spawnPoints.Length);
+        int randomIndex = Random.Range(0, spawnPoints.Length);
         Transform spawnPoint = spawnPoints[randomIndex];
 
-        Instantiate(car);
+        GameObject spawnedCar = Instantiate(car, spawnPoint.position, spawnPoint.rotation);
+
+        StartCoroutine(RemoveCar(spawnedCar));
+    }
+
+    IEnumerator RemoveCar(GameObject spawnedCar)
+    {
+        yield return new WaitForSeconds(5);
+        Destroy(spawnedCar);
     }
 }
