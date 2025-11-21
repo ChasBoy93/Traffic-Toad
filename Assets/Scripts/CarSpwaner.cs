@@ -9,6 +9,7 @@ public class CarSpawner : MonoBehaviour
 
     float nextTimeToSpawn = 0f;
 
+
     void Update()
     {
         if (nextTimeToSpawn <= Time.time)

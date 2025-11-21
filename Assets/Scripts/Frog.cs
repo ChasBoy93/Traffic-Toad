@@ -1,12 +1,15 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Frog : MonoBehaviour
 {
     public Rigidbody2D rb;
 
+    public FlyManager fm;
+
     [Header("Tilt Settings")]
-    public float tiltThreshold = 0.3f; 
-    public float moveCooldown = 0.25f;  
+    public float tiltThreshold = 0.3f;
+    public float moveCooldown = 0.25f;
 
     private float lastMoveTime = 0f;
 
@@ -16,6 +19,7 @@ public class Frog : MonoBehaviour
 
         if (Time.time - lastMoveTime < moveCooldown)
             return;
+
 
         if (tilt.x > tiltThreshold)
         {
@@ -39,5 +43,22 @@ public class Frog : MonoBehaviour
     {
         rb.MovePosition(rb.position + direction);
         lastMoveTime = Time.time;
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "Car")
+        {
+            Debug.Log("WE LOST!");
+            Score.CurrentScore = 0;
+            FlyManager.flyCount = 0;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        if(col.gameObject.CompareTag("Fly"))
+        {
+            Destroy(col.gameObject);
+            FlyManager.flyCount++;
+        }
     }
 }
