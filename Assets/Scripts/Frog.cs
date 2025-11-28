@@ -6,6 +6,7 @@ public class Frog : MonoBehaviour
     public Rigidbody2D rb;
 
     public FlyManager fm;
+    public AudioSource collectSound;
 
     [Header("Tilt Settings")]
     public float tiltThreshold = 0.3f;
@@ -13,8 +14,20 @@ public class Frog : MonoBehaviour
 
     private float lastMoveTime = 0f;
 
+
+    void Start()
+    {
+
+    }
+
     void Update()
     {
+
+        if (SceneManager.GetActiveScene().name == "Main Game")
+        {
+            DoNotDestroy.instance.GetComponent<AudioSource>().Play();
+        }
+
         Vector3 tilt = Input.acceleration;
 
         if (Time.time - lastMoveTime < moveCooldown)
@@ -57,6 +70,7 @@ public class Frog : MonoBehaviour
 
         if(col.gameObject.CompareTag("Fly"))
         {
+            collectSound.Play();
             Destroy(col.gameObject);
             FlyManager.flyCount++;
         }
