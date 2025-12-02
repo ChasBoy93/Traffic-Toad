@@ -7,6 +7,8 @@ public class Frog : MonoBehaviour
 
     public FlyManager fm;
     public AudioSource collectSound;
+    public AudioSource deathSound;
+    public AudioSource frogMoveSound;
 
     [Header("Tilt Settings")]
     public float tiltThreshold = 0.3f;
@@ -17,38 +19,63 @@ public class Frog : MonoBehaviour
 
     void Start()
     {
+        AudioManager.instance.StopClip();
+
+        AudioManager.instance.PlayClip(0);
 
     }
 
     void Update()
     {
 
-        if (SceneManager.GetActiveScene().name == "Main Game")
-        {
-            DoNotDestroy.instance.GetComponent<AudioSource>().Play();
-        }
 
         Vector3 tilt = Input.acceleration;
 
         if (Time.time - lastMoveTime < moveCooldown)
             return;
 
-
+        //Accelerometer
         if (tilt.x > tiltThreshold)
         {
             Move(Vector2.right);
+            AudioManager.instance.PlayClip(5);
         }
         else if (tilt.x < -tiltThreshold)
         {
             Move(Vector2.left);
+            AudioManager.instance.PlayClip(5);
         }
         else if (tilt.y > tiltThreshold)
         {
             Move(Vector2.up);
+            AudioManager.instance.PlayClip(5);
         }
         else if (tilt.y < -tiltThreshold)
         {
             Move(Vector2.down);
+            AudioManager.instance.PlayClip(5);
+        }
+
+        //Keyboard
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            rb.MovePosition(rb.position + Vector2.right);
+            AudioManager.instance.PlayClip(5);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            rb.MovePosition(rb.position + Vector2.left);
+            AudioManager.instance.PlayClip(5);
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            rb.MovePosition(rb.position + Vector2.up);
+            AudioManager.instance.PlayClip(5);
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            rb.MovePosition(rb.position + Vector2.down);
+            AudioManager.instance.PlayClip(5);
         }
     }
 
@@ -62,7 +89,7 @@ public class Frog : MonoBehaviour
     {
         if (col.tag == "Car")
         {
-            Debug.Log("WE LOST!");
+            AudioManager.instance.PlayClip(4);
             Score.CurrentScore = 0;
             FlyManager.flyCount = 0;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -70,7 +97,7 @@ public class Frog : MonoBehaviour
 
         if(col.gameObject.CompareTag("Fly"))
         {
-            collectSound.Play();
+            AudioManager.instance.PlayClip(3);
             Destroy(col.gameObject);
             FlyManager.flyCount++;
         }

@@ -6,10 +6,9 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        if (SceneManager.GetActiveScene().name == "Main Menu")
-        {
-            DoNotDestroy.instance.GetComponent<AudioSource>().Stop();
-        }
+        AudioManager.instance.StopClip();
+        AudioManager.instance.PlayClip(1);
+
     }
     public void PlayGame()
     {

@@ -5,6 +5,9 @@ public class Frogtest : MonoBehaviour
 {
     public Rigidbody2D rb;
 
+    public AudioSource deathSound;
+    public AudioSource frogMoveSound;
+
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.RightArrow))
@@ -29,7 +32,7 @@ public class Frogtest : MonoBehaviour
     {
         if(col.tag == "Car")
         {
-            Debug.Log("WE LOST!");
+            deathSound.Play();
             Score.CurrentScore = 0;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
