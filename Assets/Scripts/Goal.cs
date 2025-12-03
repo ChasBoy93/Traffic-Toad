@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,13 @@ public class Goal : MonoBehaviour
     {
         AudioManager.instance.PlayClip(2);
         Score.CurrentScore += 100;
+        StartCoroutine(ReloadGame());
+    }
+
+    IEnumerator ReloadGame()
+    {
+        yield return new WaitForSeconds(2.3f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
 }
